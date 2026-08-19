@@ -1,9 +1,9 @@
 package com.starfish_studios.hamsters.client;
 
 import com.geckolib.renderer.GeoEntityRenderer;
+import com.geckolib.renderer.base.RenderPassInfo;
 import com.starfish_studios.hamsters.entity.Hamster;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import com.geckolib.renderer.base.RenderPassInfo;
 
 public final class HamsterRenderer extends GeoEntityRenderer<Hamster, HamsterRenderState> {
     public HamsterRenderer(EntityRendererProvider.Context context) {
@@ -16,7 +16,7 @@ public final class HamsterRenderer extends GeoEntityRenderer<Hamster, HamsterRen
 
     @Override
     public HamsterRenderState createRenderState(Hamster hamster, Void relatedObject) {
-        return new HamsterRenderState();
+        return new HamsterRenderState(hamster);
     }
 
     @Override
