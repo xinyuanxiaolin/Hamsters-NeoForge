@@ -1,10 +1,10 @@
 {
 	"render_type": "minecraft:cutout",
 	"textures": {
-		"side": "hamsters:block/side",
-		"top": "hamsters:block/top",
-		"opening": "hamsters:block/opening",
-		"t_shape": "hamsters:block/t_shape",
+		"side": "hamsters:block/cage/white_cage",
+		"top": "hamsters:block/cage/white_cage",
+		"opening": "hamsters:block/cage/white_cage",
+		"t_shape": "hamsters:block/cage/white_cage",
 		"particle": "#opening"
 	},
 	"elements": [

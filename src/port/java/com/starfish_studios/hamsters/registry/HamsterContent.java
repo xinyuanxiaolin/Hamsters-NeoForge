@@ -1,6 +1,16 @@
 package com.starfish_studios.hamsters.registry;
 
 import com.starfish_studios.hamsters.Hamsters;
+import com.starfish_studios.hamsters.item.HamsterBallItem;
+import com.starfish_studios.hamsters.item.HamsterItem;
+import com.starfish_studios.hamsters.item.SeedMixItem;
+import com.starfish_studios.hamsters.item.ChocolateHamsterItem;
+import com.starfish_studios.hamsters.block.CagePanelBlock;
+import com.starfish_studios.hamsters.block.HamsterBottleBlock;
+import com.starfish_studios.hamsters.block.HamsterBowlBlock;
+import com.starfish_studios.hamsters.block.HamsterWheelBlock;
+import com.starfish_studios.hamsters.block.TunnelBlock;
+import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.SpawnEggItem;
 import net.minecraft.world.level.block.Block;
@@ -17,9 +27,12 @@ import java.util.Map;
 public final class HamsterContent {
     public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(Hamsters.MOD_ID);
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(Hamsters.MOD_ID);
-    public static final Map<String, DeferredBlock<Block>> REGISTERED_BLOCKS = new LinkedHashMap<>();
-    public static final DeferredItem<Item> HAMSTER = ITEMS.registerSimpleItem(
-            "hamster", properties -> properties.stacksTo(1));
+    public static final Map<String, DeferredBlock<? extends Block>> REGISTERED_BLOCKS = new LinkedHashMap<>();
+    public static final Map<DyeColor, DeferredItem<Item>> HAMSTER_BALLS = new LinkedHashMap<>();
+    public static final DeferredItem<Item> HAMSTER = ITEMS.registerItem(
+            "hamster", properties -> new HamsterItem(properties.stacksTo(1)));
+    public static final DeferredItem<Item> HAMSTER_BALL = ITEMS.registerItem(
+            "hamster_ball", properties -> new HamsterBallItem(DyeColor.WHITE, properties));
     public static final DeferredItem<SpawnEggItem> HAMSTER_SPAWN_EGG = ITEMS.registerItem(
             "hamster_spawn_egg", properties -> new SpawnEggItem(properties.spawnEgg(HamsterEntities.HAMSTER.get())));
 
@@ -79,41 +92,39 @@ public final class HamsterContent {
     );
 
     private static final List<String> ITEM_IDS = List.of(
-            "black_hamster_ball",
-            "blue_hamster_ball",
-            "brown_hamster_ball",
             "chocolate_hamster",
-            "cyan_hamster_ball",
-            "gray_hamster_ball",
-            "green_hamster_ball",
-            "hamster_ball",
-            "light_blue_hamster_ball",
-            "light_gray_hamster_ball",
-            "lime_hamster_ball",
-            "magenta_hamster_ball",
-            "orange_hamster_ball",
-            "pink_hamster_ball",
-            "purple_hamster_ball",
-            "red_hamster_ball",
-            "seed_mix",
-            "white_hamster_ball",
-            "yellow_hamster_ball"
+            "seed_mix"
     );
 
     static {
         for (String id : BLOCK_IDS) {
-            DeferredBlock<Block> block = BLOCKS.registerSimpleBlock(id, properties -> properties
-                    .strength(id.contains("cage_panel") ? 0.4F : 1.0F)
-                    .sound(id.contains("cage_panel") ? SoundType.METAL : SoundType.WOOD)
-                    .noOcclusion());
+            DeferredBlock<? extends Block> block;
+            if (id.endsWith("cage_panel") || id.equals("cage_panel")) {
+                block = BLOCKS.registerBlock(id, CagePanelBlock::new, properties -> properties.strength(0.4F).sound(SoundType.METAL).noOcclusion());
+            } else if (id.endsWith("hamster_bottle")) {
+                block = BLOCKS.registerBlock(id, HamsterBottleBlock::new, properties -> properties.strength(0.6F).sound(SoundType.GLASS).noOcclusion());
+            } else if (id.endsWith("hamster_bowl")) {
+                block = BLOCKS.registerBlock(id, HamsterBowlBlock::new, properties -> properties.strength(0.6F).sound(SoundType.STONE).noOcclusion());
+            } else if (id.equals("hamster_wheel")) {
+                block = BLOCKS.registerBlock(id, HamsterWheelBlock::new, properties -> properties.strength(1.0F).sound(SoundType.WOOD).noOcclusion());
+            } else {
+                block = BLOCKS.registerBlock(id, TunnelBlock::new, properties -> properties.strength(0.5F).sound(SoundType.GLASS).noOcclusion());
+            }
             REGISTERED_BLOCKS.put(id, block);
             ITEMS.registerSimpleBlockItem(block);
         }
-        for (String id : ITEM_IDS) {
-            ITEMS.registerSimpleItem(id, properties -> properties.stacksTo(id.equals("hamster") || id.equals("chocolate_hamster") ? 1 : 64));
+        ITEMS.registerItem("chocolate_hamster", ChocolateHamsterItem::new);
+        ITEMS.registerItem("seed_mix", SeedMixItem::new);
+        for (DyeColor color : DyeColor.values()) {
+            String id = color.getName() + "_hamster_ball";
+            HAMSTER_BALLS.put(color, ITEMS.registerItem(id, properties -> new HamsterBallItem(color, properties)));
         }
     }
 
     private HamsterContent() {
+    }
+
+    public static Item getBallItem(DyeColor color) {
+        return HAMSTER_BALLS.getOrDefault(color, HAMSTER_BALLS.get(DyeColor.WHITE)).get();
     }
 }

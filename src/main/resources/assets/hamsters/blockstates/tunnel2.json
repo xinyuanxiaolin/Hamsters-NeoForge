@@ -1,1 +1,11 @@
-{"variants":{"":{"model":"minecraft:block/oak_planks"}}}
+{
+  "multipart": [
+    { "apply": { "model": "hamsters:block/tunnel/tunnel" } },
+    { "when": { "north": "true" }, "apply": { "model": "hamsters:block/tunnel/one_way", "x": 90 } },
+    { "when": { "south": "true" }, "apply": { "model": "hamsters:block/tunnel/one_way", "x": 90, "y": 180 } },
+    { "when": { "east": "true" }, "apply": { "model": "hamsters:block/tunnel/one_way", "x": 90, "y": 90 } },
+    { "when": { "west": "true" }, "apply": { "model": "hamsters:block/tunnel/one_way", "x": 90, "y": 270 } },
+    { "when": { "up": "true" }, "apply": { "model": "hamsters:block/tunnel/one_way" } },
+    { "when": { "down": "true" }, "apply": { "model": "hamsters:block/tunnel/one_way", "x": 180 } }
+  ]
+}

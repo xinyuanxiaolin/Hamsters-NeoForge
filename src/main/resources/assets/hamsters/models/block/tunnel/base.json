@@ -1,6 +1,6 @@
 {
 	"textures": {
-		"opening": "hamsters:block/opening",
+		"opening": "hamsters:block/cage/white_cage",
 		"particle": "#opening"
 	},
 	"elements": [

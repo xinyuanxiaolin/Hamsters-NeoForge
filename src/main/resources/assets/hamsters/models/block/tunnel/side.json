@@ -1,6 +1,6 @@
 {
 	"textures": {
-		"side": "hamsters:block/side"
+		"side": "hamsters:block/cage/white_cage"
 	},
 	"elements": [
 		{

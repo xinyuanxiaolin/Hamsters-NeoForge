@@ -1,10 +1,10 @@
 {
 	"textures": {
-		"side": "hamsters:block/tunnel/green/side",
-		"inside_side": "hamsters:block/tunnel/green/inside_side",
-		"top": "hamsters:block/tunnel/green/top",
-		"inside_top": "hamsters:block/tunnel/green/inside_top",
-		"opening": "hamsters:block/tunnel/green/opening",
+		"side": "hamsters:block/cage/white_cage",
+		"inside_side": "hamsters:block/cage/white_cage",
+		"top": "hamsters:block/cage/white_cage",
+		"inside_top": "hamsters:block/cage/white_cage",
+		"opening": "hamsters:block/cage/white_cage",
 		"particle": "#opening"
 	},
 	"elements": [
