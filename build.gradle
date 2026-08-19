@@ -1,156 +1,92 @@
 plugins {
     id 'java-library'
-    id 'eclipse'
     id 'idea'
-    // NeoForged 开发插件
-    id 'net.neoforged.moddev' version '2.0.78'
-    // shadow 插件
-    id 'com.gradleup.shadow' version '8.3.6'
-}
-
-tasks.named('wrapper', Wrapper).configure {
-    distributionType = Wrapper.DistributionType.ALL
+    id 'maven-publish'
+    id 'net.neoforged.moddev' version '2.0.141'
 }
 
 version = mod_version
 group = mod_group_id
 
-repositories {
-    mavenLocal()
-    flatDir {
-        dirs 'libs'
-    }
-    mavenCentral()
-    maven {
-        name = "Modrinth"
-        url = "https://api.modrinth.com/maven"
-    }
-    maven {
-        name 'cursemaven'
-        url "https://www.cursemaven.com"
-        content {
-            includeGroup "curse.maven"
-        }
-    }
-}
-
 base {
-    archivesName = mod_name + '-neoforge-' + minecraft_version
+    archivesName = "${mod_name}-neoforge-${minecraft_version}"
 }
 
-java.toolchain.languageVersion = JavaLanguageVersion.of(21)
+repositories {
+    mavenCentral()
+    flatDir { dirs 'libs' }
+}
+
+java {
+    toolchain.languageVersion = JavaLanguageVersion.of(25)
+    withSourcesJar()
+}
 
 neoForge {
-    // NeoForge 版本
-    version = project.neo_version
+    version = neo_version
 
-    // 反混淆表
-    parchment {
-        mappingsVersion = project.parchment_mappings_version
-        minecraftVersion = project.parchment_minecraft_version
-    }
-
-    // 运行调试
     runs {
         client {
             client()
-            gameDirectory = project.file('run/client')
-            programArguments = [
-                    "--username", "MapleSugar365"
-            ]
-            systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
+            gameDirectory = file('run/client')
         }
-
         server {
             server()
-            gameDirectory = project.file('run/server')
+            gameDirectory = file('run/server')
             programArgument '--nogui'
-            systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
         }
-
-        gameTestServer {
-            type = "gameTestServer"
-            gameDirectory = project.file('run/gameTestServer')
-            systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
-        }
-
         data {
-            data()
-            gameDirectory = project.file('run/data')
-            programArguments.addAll '--mod', project.mod_id, '--all',
-                    '--output', file('src/generated/resources/').getAbsolutePath(),
-                    '--existing', file('src/main/resources/').getAbsolutePath()
+            clientData()
+            gameDirectory = file('run/data')
+            programArguments.addAll '--mod', mod_id, '--all', '--output', file('src/generated/resources').absolutePath, '--existing', file('src/main/resources').absolutePath
         }
-
         configureEach {
-            jvmArguments = ['-XX:+IgnoreUnrecognizedVMOptions',
-                            '-XX:+AllowEnhancedClassRedefinition']
-            systemProperty 'forge.logging.markers', 'REGISTRIES'
-            logLevel = org.slf4j.event.Level.DEBUG
+            systemProperty 'neoforge.enabledGameTestNamespaces', mod_id
+            logLevel = org.slf4j.event.Level.INFO
         }
     }
 
     mods {
         "${mod_id}" {
-            sourceSet(sourceSets.main)
+            sourceSet sourceSets.main
         }
     }
 }
 
-sourceSets.main.resources { srcDir 'src/generated/resources' }
 
-configurations {
-    runtimeClasspath.extendsFrom localRuntime
-}
-
-dependencies {
-    implementation "net.neoforged:neoforge:${neo_version}"
-    implementation "maven.modrinth:create:${create_id}"
-    implementation "maven.modrinth:geckolib:${geckolib_id}"
-    implementation "maven.modrinth:midnightlib:${midnightlib_id}"
-    compileOnly files("libs/flywheel-neoforge-1.21.1-1.0.4.jar")
-    compileOnly files("libs/Ponder-NeoForge-1.21.1-1.0.56.jar")
-    compileOnly files("libs/Registrate-MC1.21-1.3.0+62.jar")
-}
+sourceSets.main.java.setSrcDirs(['src/port/java'])
+sourceSets.main.resources.srcDir 'src/generated/resources'
 
 tasks.withType(ProcessResources).configureEach {
-    var replaceProperties = [
-            minecraft_version      : minecraft_version,
+    def properties = [
             minecraft_version_range: minecraft_version_range,
-            neo_version            : neo_version,
-            neo_version_range      : neo_version_range,
-            loader_version_range   : loader_version_range,
-            mod_id                 : mod_id,
-            mod_name               : mod_name,
-            mod_license            : mod_license,
-            mod_version            : mod_version,
-            mod_authors            : mod_authors,
-            mod_description        : mod_description
+            neo_version_range: neo_version_range,
+            loader_version_range: loader_version_range,
+            mod_id: mod_id,
+            mod_name: mod_name,
+            mod_license: mod_license,
+            mod_version: mod_version,
+            mod_authors: mod_authors,
+            mod_description: mod_description
     ]
-    inputs.properties replaceProperties
-
-    filesMatching(['META-INF/neoforge.mods.toml']) {
-        expand replaceProperties
-    }
-}
-
-jar {
-    // enabled = false
-    manifest {
-        attributes([
-                "Implementation-Title"  : project.name,
-                "Implementation-Version": "${version}"
-        ])
+    inputs.properties properties
+    filesMatching('META-INF/neoforge.mods.toml') {
+        expand properties
     }
 }
 
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8'
+    options.release = 25
+    options.compilerArgs += ['-Xmaxerrs', '1000']
 }
 
-idea {
-    module {
-        downloadSources = true
-        downloadJavadoc = true
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+        }
     }
 }
+
+

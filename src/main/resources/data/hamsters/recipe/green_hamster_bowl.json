@@ -6,12 +6,8 @@
         "   "
     ],
     "key": {
-        "d": {
-            "item": "minecraft:green_dye"
-        },
-        "#": {
-            "tag": "hamsters:hamster_bowls"
-        }
+        "d": "minecraft:green_dye",
+        "#": "#hamsters:hamster_bowls"
     },
     "result": {
         "id": "hamsters:green_hamster_bowl",

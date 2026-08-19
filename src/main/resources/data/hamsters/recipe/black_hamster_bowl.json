@@ -6,12 +6,8 @@
         "   "
     ],
     "key": {
-        "d": {
-            "item": "minecraft:black_dye"
-        },
-        "#": {
-            "tag": "hamsters:hamster_bowls"
-        }
+        "d": "minecraft:black_dye",
+        "#": "#hamsters:hamster_bowls"
     },
     "result": {
         "id": "hamsters:black_hamster_bowl",

@@ -8,15 +8,9 @@
         "SCS"
     ],
     "key": {
-        "S": {
-            "item": "minecraft:sugar"
-        },
-        "C": {
-            "item": "minecraft:cocoa_beans"
-        },
-        "D": {
-            "item": "minecraft:diamond"
-        }
+        "S": "minecraft:sugar",
+        "C": "minecraft:cocoa_beans",
+        "D": "minecraft:diamond"
     },
     "result": {
         "id": "hamsters:chocolate_hamster",

@@ -1,13 +1,8 @@
 pluginManagement {
     repositories {
-        mavenLocal()
-        gradlePluginPortal()
         maven { url = 'https://maven.neoforged.net/releases' }
+        gradlePluginPortal()
     }
 }
 
-plugins {
-    id 'org.gradle.toolchains.foojay-resolver-convention' version '0.9.0'
-}
-
-rootProject.name = 'Hamsters'
+rootProject.name = 'hamsters-neoforge'

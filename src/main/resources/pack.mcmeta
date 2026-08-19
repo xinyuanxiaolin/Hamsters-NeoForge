@@ -1,6 +1,7 @@
 {
   "pack": {
-    "description": "hamsters resources",
-    "pack_format": 34
+    "description": "Hamsters resources for Minecraft 26.2",
+    "min_format": 101.1,
+    "max_format": 101.1
   }
 }

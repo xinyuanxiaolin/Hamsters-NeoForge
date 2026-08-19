@@ -6,12 +6,8 @@
         "   "
     ],
     "key": {
-        "d": {
-            "item": "minecraft:yellow_dye"
-        },
-        "#": {
-            "tag": "hamsters:hamster_bottles"
-        }
+        "d": "minecraft:yellow_dye",
+        "#": "#hamsters:hamster_bottles"
     },
     "result": {
         "id": "hamsters:yellow_hamster_bottle",

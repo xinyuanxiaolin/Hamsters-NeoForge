@@ -8,12 +8,8 @@
         "###"
     ],
     "key": {
-        "#": {
-            "tag": "hamsters:cage_panels"
-        },
-        "X": {
-            "item": "minecraft:gray_dye"
-        }
+        "#": "#hamsters:cage_panels",
+        "X": "minecraft:gray_dye"
     },
     "result": {
         "id": "hamsters:gray_cage_panel",

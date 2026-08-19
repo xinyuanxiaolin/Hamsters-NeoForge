@@ -6,12 +6,8 @@
         "   "
     ],
     "key": {
-        "d": {
-            "item": "minecraft:lime_dye"
-        },
-        "#": {
-            "tag": "hamsters:hamster_bowls"
-        }
+        "d": "minecraft:lime_dye",
+        "#": "#hamsters:hamster_bowls"
     },
     "result": {
         "id": "hamsters:lime_hamster_bowl",

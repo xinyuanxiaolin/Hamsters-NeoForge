@@ -6,12 +6,8 @@
     "___"
   ],
   "key": {
-    "c": {
-      "item": "minecraft:copper_ingot"
-    },
-    "_": {
-      "item": "minecraft:smooth_stone_slab"
-    }
+    "c": "minecraft:copper_ingot",
+    "_": "minecraft:smooth_stone_slab"
   },
   "result": {
     "id": "hamsters:hamster_wheel",
