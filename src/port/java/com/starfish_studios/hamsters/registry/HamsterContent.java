@@ -2,10 +2,12 @@ package com.starfish_studios.hamsters.registry;
 
 import com.starfish_studios.hamsters.Hamsters;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.SpawnEggItem;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.neoforged.neoforge.registries.DeferredBlock;
+import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
 import java.util.LinkedHashMap;
@@ -16,6 +18,10 @@ public final class HamsterContent {
     public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(Hamsters.MOD_ID);
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(Hamsters.MOD_ID);
     public static final Map<String, DeferredBlock<Block>> REGISTERED_BLOCKS = new LinkedHashMap<>();
+    public static final DeferredItem<Item> HAMSTER = ITEMS.registerSimpleItem(
+            "hamster", properties -> properties.stacksTo(1));
+    public static final DeferredItem<SpawnEggItem> HAMSTER_SPAWN_EGG = ITEMS.registerItem(
+            "hamster_spawn_egg", properties -> new SpawnEggItem(properties.spawnEgg(HamsterEntities.HAMSTER.get())));
 
     private static final List<String> BLOCK_IDS = List.of(
             "black_cage_panel",
@@ -80,7 +86,6 @@ public final class HamsterContent {
             "cyan_hamster_ball",
             "gray_hamster_ball",
             "green_hamster_ball",
-            "hamster",
             "hamster_ball",
             "light_blue_hamster_ball",
             "light_gray_hamster_ball",
