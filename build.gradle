@@ -17,6 +17,10 @@ repositories {
     flatDir { dirs 'libs' }
 }
 
+dependencies {
+    implementation files('libs/geckolib-neoforge-26.2-5.5.3.jar')
+}
+
 java {
     toolchain.languageVersion = JavaLanguageVersion.of(25)
     withSourcesJar()
