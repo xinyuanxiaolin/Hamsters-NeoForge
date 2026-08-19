@@ -1,0 +1,6 @@
+{
+  "model": {
+    "model": "hamsters:item/cage_panel",
+    "type": "minecraft:model"
+  }
+}

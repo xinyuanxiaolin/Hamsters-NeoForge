@@ -1,0 +1,6 @@
+{
+  "model": {
+    "model": "hamsters:item/hamster_ball",
+    "type": "minecraft:model"
+  }
+}
